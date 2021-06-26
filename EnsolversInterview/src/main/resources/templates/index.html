@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel= "stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"/>
+	<script>
+		src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"
+	</script>
+	<title>Items::List</title> 
+	</head>
+	<body>
+		<div class ="panel panel-info">
+		<div class= "panel-heading"><h3>To do items list</h3></div>
+		<table class= "table table-stripded">
+			<thead>
+				<tr>
+					<th>It is finished?</th>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-th-each="item : ${items}">
+					<td><input type="checkbox" id="cbox1" value="first_checkbox"></td>
+					<td data-th-text="${item.id}"></td>
+					<td data-th-text="${item.name}"></td>
+					<td>
+						<a th:href="@{'/edit/{id}' (id=${item.id})}">
+							<span class "fa-stack">
+								<i class="glyphicon glyphicon-edit"></i>
+							</span>
+						</a>
+					</td>
+					<td>
+						<a th:href="@{'/delete/{id}' (id=${item.id})}">
+							<span class "fa-stack">
+								<i class="glyphicon glyphicon-trash"></i>
+							</span>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+		<br/>
+		<a class="btn btn-info" href="/new">Create new item</a> 
+		<a class="btn btn-info" href="/">Back to welcome page</a>
+	</body>
+
+</html>

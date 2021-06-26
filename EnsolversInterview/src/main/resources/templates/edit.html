@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel= "stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"/>
+	<script>
+		src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"
+	</script>
+	<title>New::Item</title> 
+	</head>
+	<body>
+		<div class="page-header" >
+			<h1>Edit Item</h1>
+		</div>
+		<form action="#" th:action="@{/act}" th:object="${item}" method="post">
+			<input type="hidden" id="id" name="id" th:field="*{id}" -->
+		<div class="form-group">
+			<label for="name" class="col-sm-2 control-label">Name</label>
+			<div class="col-sm-10">
+				<input type="text" class"form-control" name="name" id="name" th:field="*{name}" required="required" />
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Edit</button>
+					<a class="btn btn-info" href="/index">Back to items list</a>
+				</div>
+			</div>
+		</div>
+		</form>	
+	</body>
+</html>

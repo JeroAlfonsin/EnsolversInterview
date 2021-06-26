@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ensolverintdb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    username: root
+    password: Jero71299.
