@@ -8,8 +8,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.ensolverInt.products.daos.FolderDAO;
 import com.ensolverInt.products.daos.ItemsDAO;
 import com.ensolverInt.products.entities.Folder;
@@ -178,6 +176,26 @@ public class ProductRest {
 		fDAO.save(folder);
 		mp.put("folders", fDAO.findAll());
 		return "/folderIndex";
+	}
+	
+	@RequestMapping(value="deleteFolder/{idFolder}", method=RequestMethod.GET)
+	public String deleteFolder(ModelMap mp,@PathVariable Long idFolder)
+	{
+		actFolder= fDAO.findById(idFolder).get();
+		deleteItems(iDAO.findAll(),actFolder.getId());
+		fDAO.deleteById(idFolder);
+		mp.put("folders", fDAO);
+		return "/folderIndex";
+	}
+
+	private void deleteItems(List<Item> l, long id) {
+		for (Item i : l)
+		{
+			if (i.getFolder().getId()== id)
+			{
+				iDAO.delete(i);
+			}
+		}
 	}
 	
 	
