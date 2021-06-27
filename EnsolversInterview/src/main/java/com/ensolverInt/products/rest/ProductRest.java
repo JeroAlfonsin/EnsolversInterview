@@ -184,7 +184,7 @@ public class ProductRest {
 		actFolder= fDAO.findById(idFolder).get();
 		deleteItems(iDAO.findAll(),actFolder.getId());
 		fDAO.deleteById(idFolder);
-		mp.put("folders", fDAO);
+		mp.put("folders", fDAO.findAll());
 		return "/folderIndex";
 	}
 
