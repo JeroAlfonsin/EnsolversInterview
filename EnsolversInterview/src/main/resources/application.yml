@@ -8,4 +8,4 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ensolverintdb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
     username: user
-    password:
+    password: user123

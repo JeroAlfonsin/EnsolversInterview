@@ -121,7 +121,9 @@ public class ProductRest {
 	public String deleteItem (@PathVariable("id") Long itemId, ModelMap mp)
 	{
 		iDAO.deleteById(itemId);
-		mp.put("items", iDAO.findAll());
+		List<Item> l= iDAO.findAll();
+		List<Item> lRet= innerJoin(l,actFolder.getId());
+		mp.put("items", lRet);
 		return "/index";
 	}
 	
