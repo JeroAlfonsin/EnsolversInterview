@@ -7,5 +7,5 @@ spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ensolverintdb?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
-    username: root
-    password: Jero71299.
+    username: user
+    password:
