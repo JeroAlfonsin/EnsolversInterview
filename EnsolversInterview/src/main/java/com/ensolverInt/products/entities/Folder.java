@@ -5,13 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="items")
-public class Item {
+@Table(name="folder")
+public class Folder {
+	
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -19,12 +18,7 @@ public class Item {
 	
 	@Column(name="name")
 	private String name;
-	
-	
-	@JoinColumn(name="fk_folder", nullable=false)
-	@ManyToOne
-	private Folder folder;
-	
+
 	
 	public long getId() {
 		return id;
@@ -38,11 +32,4 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Folder getFolder() {
-		return folder;
-	}
-	public void setFolder(Folder folder) {
-		this.folder = folder;
-	}
-	
 }
