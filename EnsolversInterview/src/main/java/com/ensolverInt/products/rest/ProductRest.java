@@ -58,7 +58,7 @@ public class ProductRest {
 		if(username.equals("user") && password.equals("user123") )
 		{
 			mp.put("folders", fDAO.findAll());
-			return "/folderIndex";
+			return "folderIndex";
 		}
 			
 		else return("userOrPassInc");
