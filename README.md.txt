@@ -4,7 +4,6 @@ password: user123
 
 The whole application was developed in Spring Boot 4.4.11, the backend was made in Java and the frontend in
 HTML. The database use my-sql 5.7.31 and the conncetor Connector J to connect the app and de BD.
-Before starting, is required to unzip the target folder, there we have all the necessary things to build the web application.
 To start the BD and the complete application, there is a script bash. To run this file you must have
 user root created in mysql, and also this user must have all the privileges.
 After press enter to ./initScipt.sh the console will ask you to enter the password of root, after that
