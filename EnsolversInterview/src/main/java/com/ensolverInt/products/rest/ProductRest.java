@@ -44,7 +44,7 @@ public class ProductRest {
 	@RequestMapping(value="", method = RequestMethod.GET)
 	public String welcome()
 	{
-		return "/welcome";
+		return "welcome";
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class ProductRest {
 			return "/folderIndex";
 		}
 			
-		else return("/userOrPassInc");
+		else return("userOrPassInc");
 	}
 	
 	// This method send to the view a list of all the items saved in DB
@@ -72,7 +72,7 @@ public class ProductRest {
 		List<Item> l= iDAO.findAll();
 		List<Item> lRet= innerJoin(l,actFolder.getId());
 		mp.put("items", lRet);
-		return "/index";
+		return "index";
 	}
 	
 	//This method simulates an sql inner join
@@ -91,7 +91,7 @@ public class ProductRest {
 	@RequestMapping(value="/index/new", method= RequestMethod.GET)
 	public String newItem (ModelMap mp)
 	{
-		return "/new";
+		return "new";
 	}
 	
 	
@@ -109,7 +109,7 @@ public class ProductRest {
 		List<Item> l= iDAO.findAll();
 		List<Item> lRet= innerJoin(l,actFolder.getId());
 		mp.put("items", lRet);
-		return "/index";
+		return "index";
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class ProductRest {
 		List<Item> l= iDAO.findAll();
 		List<Item> lRet= innerJoin(l,actFolder.getId());
 		mp.put("items", lRet);
-		return "/index";
+		return "index";
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class ProductRest {
 	public String editItem(@PathVariable("id") Long itemId, ModelMap mp)
 	{
 		mp.put("item", iDAO.findById(itemId));
-		return "/edit";
+		return "edit";
 	}
 	
 	
@@ -149,7 +149,7 @@ public class ProductRest {
 		iAct.setName(i.getName());
 		iDAO.save(iAct);
 		mp.put("items", iDAO.findAll());
-		return "/index";
+		return "index";
 			
 	}
 	
@@ -160,13 +160,13 @@ public class ProductRest {
 	public String getFolders(ModelMap mp)
 	{
 		mp.put("folders", fDAO.findAll());
-		return "/folderIndex";
+		return "folderIndex";
 	}
 	
 	@RequestMapping(value="/folderNew", method= RequestMethod.GET)
 	public String newFolder (ModelMap mp)
 	{
-		return "/folderNew";
+		return "folderNew";
 	}
 	
 	
@@ -177,7 +177,7 @@ public class ProductRest {
 		folder.setId(100);
 		fDAO.save(folder);
 		mp.put("folders", fDAO.findAll());
-		return "/folderIndex";
+		return "folderIndex";
 	}
 	
 	@RequestMapping(value="deleteFolder/{idFolder}", method=RequestMethod.GET)
@@ -187,7 +187,7 @@ public class ProductRest {
 		deleteItems(iDAO.findAll(),actFolder.getId());
 		fDAO.deleteById(idFolder);
 		mp.put("folders", fDAO.findAll());
-		return "/folderIndex";
+		return "folderIndex";
 	}
 
 	private void deleteItems(List<Item> l, long id) {
