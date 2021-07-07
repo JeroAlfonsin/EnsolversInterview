@@ -21,11 +21,6 @@ public class Item {
 	private String name;
 	
 	
-	@JoinColumn(name="fk_folder", nullable=false)
-	@ManyToOne
-	private Folder folder;
-	
-	
 	public long getId() {
 		return id;
 	}
@@ -38,11 +33,4 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Folder getFolder() {
-		return folder;
-	}
-	public void setFolder(Folder folder) {
-		this.folder = folder;
-	}
-	
 }
