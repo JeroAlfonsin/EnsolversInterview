@@ -16,8 +16,14 @@ import "primeicons/primeicons.css"
 export default class App extends Component{
   constructor(){
     super();
-    this.state ={};
-    this.items=[
+    this.state= {
+      visible:false,
+      item:{
+        id:null,
+        name:null
+      }
+    };
+    this.items = [
       {
         label: 'New',
         icon: 'pi pi-fw pi-plus',
@@ -38,27 +44,24 @@ export default class App extends Component{
       <div >
         <Button label="Create" icon='pi pi-check' onClick={this.save()}  />
       </div>
-    )
+    );
     this.itemService= new ItemService();
-    console.log(this.itemService)
+    this.save=this.save.bind(this);
   }
 
-  save(){
-    this.itemService.saveItem(this.item).then(data => {
-    console.log(data);
-   });
-  }
+    save()
+    {
+      this.itemService.saveItem(this.state.item).then(data => {
+      console.log(data);
+     });
+    }
+
+
   componentDidMount()
   {
     this.itemService.getAll().then(data =>this.setState({items : data}))
-    this.setState({
-      visible:false,
-      item:{
-        id:null,
-        name:null
-      }
-    })
   }
+
 
 
   render(){
@@ -74,11 +77,14 @@ export default class App extends Component{
           </Panel>
           <Dialog header="Create Item" visible={this.state.visible} style={{width:'500px'}} footer={this.footer} modal={true} onHide={()=>this.setState({visible:false})}>
               <span className="p-float-label">
-              <InputText style={{width: '100%'}} value={this.state.value} onChange={(e) => this.setState(prevState =>{
-                let item = Object.assign({}, prevState.item);
-                item.name=e.target
-                return {item}
-              })} />
+              <InputText value={this.state.item.name} style={{width: '100%'}} onChange={(e) => {
+                  let val=e.target.value;
+                  this.setState(prevState =>{
+                  let item = Object.assign({}, prevState.item);
+                  item.name=e.val;
+                  return {item};
+              })}
+            }/>
               <label htmlFor="name">Username</label>
               </span>
           </Dialog>
