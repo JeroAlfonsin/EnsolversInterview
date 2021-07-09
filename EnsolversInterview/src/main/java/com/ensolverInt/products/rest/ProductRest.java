@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -100,13 +101,13 @@ public class ProductRest {
 	 * 
 	 */
 	@PostMapping
-	public ResponseEntity<List<Item>> createItem (@RequestBody Item item)
+	public ResponseEntity<Item> createItem (@RequestBody Item item)
 	{
 		// Its hardcoded because when iDAO want to save the item in DB, if id is null it dosn't work  
 		item.setId(100);
 		//item.setFolder(actFolder);
-		iDAO.save(item);
-		return ResponseEntity.ok(iDAO.findAll());
+		Item itemS=iDAO.save(item);
+		return ResponseEntity.ok(itemS);
 	}
 	
 	/**
@@ -114,10 +115,20 @@ public class ProductRest {
 	 * This method receives the id of the item that want to be delete. It look for the item in BD and destroy it
 	 */
 	@DeleteMapping(value= "{itemId}")
-	public ResponseEntity<List<Item>> deleteItem (@PathVariable("itemId") Long itemId)
+	public ResponseEntity<Item> deleteItem (@PathVariable("itemId") Long itemId)
 	{
+		Item itemd=iDAO.findById(itemId).get();
 		iDAO.deleteById(itemId);
-		return ResponseEntity.ok(iDAO.findAll());
+		return ResponseEntity.ok(itemd);
+	}
+	
+	@PutMapping()
+	public ResponseEntity<Item> updateItems(@RequestBody Item item)
+	{
+		Item iAct= iDAO.findById(item.getId()).get();
+		iAct.setName(item.getName());
+		iDAO.save(iAct);
+		return ResponseEntity.ok(iAct);
 	}
 	
 
