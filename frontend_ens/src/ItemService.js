@@ -1,10 +1,9 @@
 import axios from "axios";
-import { App } from './App';
 
 export class ItemsService {
 
-    getItems(){
-        return axios.get("http://localhost:8080/items").then(response =>response.data);
+    getItems(idF){
+        return axios.get("http://localhost:8080/items/"+ idF).then(response =>response.data);
     }
 
     saveItems(item){

@@ -1,58 +1,73 @@
-import logo from './logo.svg';
+
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { Component } from 'react';
-import { ItemsService } from './ItemService';
-import { ThemeConsumer } from 'react-bootstrap/esm/ThemeProvider';
+import {Component } from 'react';
+import { FolderService } from './FolderServices';
+import ReactDOM from 'react-dom';
+import reportWebVitals from './reportWebVitals';
+import AppItems from './AppItems';
+import React from 'react';
 
 class App extends Component {
-  state={
-    items:[],
-    itemService: new ItemsService(),
-    modalInsert:false,
-    deleteModal:false,
-    modalType:'',
-    form:{
-      id:'',
-      name: ''
+  constructor(){
+    super();
+    this.state={
+      folders:[],
+      folderService: new FolderService(),
+      modalInsert:false,
+      deleteModal:false,
+      modalType:'',
+      verItems:false,
+      form:{
+        id:'',
+        name: ''
+      }
     }
+    this.handlerVerItems= this.handlerVerItems.bind(this);
   }
   componentDidMount(){
-    this.state.itemService.getItems().then(data =>this.setState({items:data}));
+    this.state.folderService.getFolders().then(data =>this.setState({folders:data}));
 
   }
 
-  saveItem= async()=>{
-    await this.state.itemService.saveItems(this.state.form).then(response=>{
+  saveFolder(){
+        this.state.folderService.saveFolder(this.state.form).then(response=>{
         this.modalInsert();
         this.componentDidMount();
       }
     )
   }
 
-  selectItem=(item)=>{
+  selectFolder=(folder)=>{
     this.setState({
       modalType:'update',
       form:{
-        id:item.id,
-        name:item.name,
+        id:folder.id,
+        name:folder.name,
       }
     })
   }
-  deleteItem(){
-    this.state.itemService.deleteItem(this.state.form.id).then(response=>{
+  deleteFolder(){
+    this.state.folderService.deleteFolder(this.state.form.id).then(response=>{
       this.setState({deleteModal:false});
       this.componentDidMount();
     })
   }
-  updateItem(){
-      this.state.itemService.updateItem(this.state.form).then(response=>{
+  updateFolder(){
+      this.state.folderService.updateFolder(this.state.form).then(response=>{
       this.modalInsert();
       this.componentDidMount();
     })
+  }
+
+  openFolder(){
+    this.setState({verItems:true});
+  }
+  handlerVerItems(opt){
+    this.setState({verItems:opt});
   }
 
   handleChange=async e=>{
@@ -80,23 +95,26 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.items.map(item => {
+            {this.state.folders.map(folder => {
               return(
                 <tr>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
+                  <td>{folder.id}</td>
+                  <td>{folder.name}</td>
                   <td>
-                  <button className="btn btn-primary" onClick={()=>{this.selectItem(item);this.modalInsert()}}><FontAwesomeIcon icon={faEdit}/></button>
-                {"   "}
-                <button className="btn btn-danger" onClick={()=>{this.selectItem(item);this.setState({deleteModal:true})}}><FontAwesomeIcon icon={faTrashAlt}/></button>
-                  </td>
+                    <button className="btn btn-primary" onClick={()=>{this.selectFolder(folder);this.openFolder()}}><FontAwesomeIcon icon={faFolderOpen}/></button>
+                    {"   "}
+                    <button className="btn btn-primary" onClick={()=>{this.selectFolder(folder);this.modalInsert()}}><FontAwesomeIcon icon={faEdit}/></button>
+                    {"   "}
+                    <button className="btn btn-danger" onClick={()=>{this.selectFolder(folder);this.setState({deleteModal:true})}}><FontAwesomeIcon icon={faTrashAlt}/></button>
+                  
+                </td>
                 </tr>
               )
             })}
           </tbody>
         </table>
 
-      <Modal isOpen={this.state.modalInsert}>
+        <Modal isOpen={this.state.modalInsert}>
         <div className="Form-group">
         <label htmlFor="id">ID</label>
                     <input className="form-control" type="text" name="id" id="id" readOnly onChange={this.handleChange} value={form?form.id: ''}/>
@@ -105,32 +123,34 @@ class App extends Component {
                     <br />
         </div>
         <ModalFooter>
-                  {this.state.modalType=='insert'?
-                    <button className="btn btn-success" onClick={()=>this.saveItem()}>
-                    Add Item
-                    </button>: <button className="btn btn-primary" onClick={()=>this.updateItem()}>
+                  {this.state.modalType =='insert'?
+                    <button className="btn btn-success" onClick={()=>this.saveFolder()}>
+                    Add Folder
+                    </button>: <button className="btn btn-primary" onClick={()=>this.updateFolder()}>
                     Update
                     </button>
-  }
-                    <button className="btn btn-danger" onClick={()=>this.modalInsert()}>Cancelar</button>
+                  }
+                    <button className="btn btn-danger" onClick={()=>this.modalInsert()}>Cancel</button>
         </ModalFooter>
 
               
-      </Modal>
+        </Modal>
 
 
-      <Modal isOpen={this.state.deleteModal}>
+        <Modal isOpen={this.state.deleteModal}>
             <ModalBody>
-              Are you sure you want to delete the item {form && form.name}
+              Are you sure you want to delete this Folder {form && form.name}
             </ModalBody>
             <ModalFooter>
-              <button className="btn btn-danger" onClick={()=>this.deleteItem()}>Yes</button>
+              <button className="btn btn-danger" onClick={()=>this.deleteFolder()}>Yes</button>
               <button className="btn btn-secundary" onClick={()=>this.setState({deleteModal: false})}>No</button>
             </ModalFooter>
           </Modal>
 
-          <button className="btn btn-success" onClick={()=>{this.setState({form: null, modalType: 'insert'}); this.modalInsert()}} >Add Item to do</button>
+          <button className="btn btn-success" onClick={()=>{this.setState({form: null, modalType: 'insert'}); this.modalInsert()}} >Add Folder</button>
+        {this.state.verItems ? <AppItems folder={this.state.form.id} handlerVerItems={this.handlerVerItems}/> : null}          
       </div>
+     
     );
   }
 }

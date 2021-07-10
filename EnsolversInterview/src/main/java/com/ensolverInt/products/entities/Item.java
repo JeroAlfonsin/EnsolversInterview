@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+//import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,7 +20,15 @@ public class Item {
 	@Column(name="name")
 	private String name;
 	
+	@ManyToOne
+	private Folder folder;
 	
+	public Folder getFolder() {
+		return folder;
+	}
+	public void setFolder(Folder folder) {
+		this.folder = folder;
+	}
 	public long getId() {
 		return id;
 	}
