@@ -87,68 +87,64 @@ class App extends Component {
     const {form}= this.state;
     return (
       <div className="App">
-        <table className="table ">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.folders.map(folder => {
-              return(
-                <tr>
-                  <td>{folder.id}</td>
-                  <td>{folder.name}</td>
-                  <td>
-                    <button className="btn btn-primary" onClick={()=>{this.selectFolder(folder);this.openFolder()}}><FontAwesomeIcon icon={faFolderOpen}/></button>
-                    {"   "}
-                    <button className="btn btn-primary" onClick={()=>{this.selectFolder(folder);this.modalInsert()}}><FontAwesomeIcon icon={faEdit}/></button>
-                    {"   "}
-                    <button className="btn btn-danger" onClick={()=>{this.selectFolder(folder);this.setState({deleteModal:true})}}><FontAwesomeIcon icon={faTrashAlt}/></button>
-                  
-                </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-
-        <Modal isOpen={this.state.modalInsert}>
-        <div className="Form-group">
-        <label htmlFor="id">ID</label>
-                    <input className="form-control" type="text" name="id" id="id" readOnly onChange={this.handleChange} value={form?form.id: ''}/>
-                    <label htmlFor="name">Name</label>
-                    <input className="Form-control" type="text" name="name" id="name" onChange={this.handleChange} value={form?form.name:''} />
-                    <br />
-        </div>
-        <ModalFooter>
-                  {this.state.modalType =='insert'?
-                    <button className="btn btn-success" onClick={()=>this.saveFolder()}>
-                    Add Folder
-                    </button>: <button className="btn btn-primary" onClick={()=>this.updateFolder()}>
-                    Update
-                    </button>
-                  }
-                    <button className="btn btn-danger" onClick={()=>this.modalInsert()}>Cancel</button>
-        </ModalFooter>
-
-              
-        </Modal>
-
-
-        <Modal isOpen={this.state.deleteModal}>
-            <ModalBody>
-              Are you sure you want to delete this Folder {form && form.name}
-            </ModalBody>
-            <ModalFooter>
-              <button className="btn btn-danger" onClick={()=>this.deleteFolder()}>Yes</button>
-              <button className="btn btn-secundary" onClick={()=>this.setState({deleteModal: false})}>No</button>
-            </ModalFooter>
+        {this.state.verItems ? <AppItems folder={this.state.form.id} handlerVerItems={this.handlerVerItems}/> :
+          <div> 
+          <table className="table ">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.folders.map(folder => {
+                return(
+                  <tr>
+                    <td>{folder.id}</td>
+                    <td>{folder.name}</td>
+                    <td>
+                      <button className="btn btn-primary" onClick={()=>{this.selectFolder(folder);this.openFolder()}}><FontAwesomeIcon icon={faFolderOpen}/></button>
+                      {"   "}
+                      <button className="btn btn-primary" onClick={()=>{this.selectFolder(folder);this.modalInsert()}}><FontAwesomeIcon icon={faEdit}/></button>
+                      {"   "}
+                      <button className="btn btn-danger" onClick={()=>{this.selectFolder(folder);this.setState({deleteModal:true})}}><FontAwesomeIcon icon={faTrashAlt}/></button>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+          <Modal isOpen={this.state.modalInsert}>
+          <div className="Form-group">
+          <label htmlFor="id">ID</label>
+                      <input className="form-control" type="text" name="id" id="id" readOnly onChange={this.handleChange} value={form?form.id: ''}/>
+                      <label htmlFor="name">Name</label>
+                      <input className="Form-control" type="text" name="name" id="name" onChange={this.handleChange} value={form?form.name:''} />
+                      <br />
+          </div>
+          <ModalFooter>
+                    {this.state.modalType =='insert'?
+                      <button className="btn btn-success" onClick={()=>this.saveFolder()}>
+                      Add Folder
+                      </button>: <button className="btn btn-primary" onClick={()=>this.updateFolder()}>
+                      Update
+                      </button>
+                    }
+                      <button className="btn btn-danger" onClick={()=>this.modalInsert()}>Cancel</button>
+          </ModalFooter>
           </Modal>
-
-          <button className="btn btn-success" onClick={()=>{this.setState({form: null, modalType: 'insert'}); this.modalInsert()}} >Add Folder</button>
-        {this.state.verItems ? <AppItems folder={this.state.form.id} handlerVerItems={this.handlerVerItems}/> : null}          
+          <Modal isOpen={this.state.deleteModal}>
+              <ModalBody>
+                Are you sure you want to delete this Folder {form && form.name}
+              </ModalBody>
+              <ModalFooter>
+                <button className="btn btn-danger" onClick={()=>this.deleteFolder()}>Yes</button>
+                <button className="btn btn-secundary" onClick={()=>this.setState({deleteModal: false})}>No</button>
+              </ModalFooter>
+            </Modal>
+            <button className="btn btn-success" onClick={()=>{this.setState({form: null, modalType: 'insert'}); this.modalInsert()}} >Add Folder</button>        
+          </div>
+        }
       </div>
      
     );
